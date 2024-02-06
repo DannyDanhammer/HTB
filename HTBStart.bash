@@ -14,6 +14,8 @@ newterm 'echo "Logging in with .ovpn file"; openvpn Lab_Dannyoftheira.ovpn'
 read -p "Enter the IP address: " ip_address
 read -p "Enter the hostname: " hostname
 
+# Give time for .ovpn connection
+sleep 30
 
 # https://www.linuxjournal.com/content/validating-ip-address-bash-script
 function valid_ip()

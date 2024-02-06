@@ -1,11 +1,13 @@
 #!/bin/bash
 
-# Prompt user for input
-read -p "Enter the IP address: " ip_address
-read -p "Enter the hostname: " hostname
+#Function to open new terminal - add to requirments doc sudo apt install gnome-terminal
+function newterm() 
+{
+    gnome-terminal -- bash -c "$1; exec bash"
+}
 
-
-# https://www.linuxjournal.com/content/validating-ip-address-bash-script
+# function to validate the ip address 
+# copied from:  https://www.linuxjournal.com/content/validating-ip-address-bash-script
 function valid_ip()
 {
     local  ip=$1
@@ -31,12 +33,44 @@ function valid_ip()
     return $stat
 }
 
+######MAIN#######
+###hardcoded file! set as variable and add to setup/requirments script
+newterm 'echo "Logging in with .ovpn file";sudo openvpn lab_Dannyoftheira.ovpn'
+
+
+
+
+
+# Prompt user for input
+read -p "Enter the IP address: " ip_address
+read -p "Enter the hostname: " hostname
+
+#Sleep to allow connection
+sleep 5
+
 # validate IP Address
-if ! valid_ip $ip_address 
+if ! valid_ip $ip_address  
 then 
     echo "Invalid IP Address defined" 
     exit 0 
 fi
 
+# Set environmental variable
+export TARGET="$ip_address"
 
-echo "valid ip: $ip_address"
+# Construct the command to update /etc/hosts
+update_hosts_command="echo \"$ip_address $hostname\" | sudo tee -a /etc/hosts"
+
+# Execute the command to update /etc/hosts
+eval "$update_hosts_command"
+
+# Construct the nmap command
+nmap_command="sudo nmap -p\$(nmap -p- --min-rate=1000 -T4 $TARGET -Pn | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//) -sC -sV -Pn -vvv $TARGET -oN nmap_tcp_all.nmap"
+
+# Execute the nmap command
+eval "$nmap_command"
+
+
+##chmod +x htbstart
+# note: maybe try adding openvpn start to the script as wellbut must include time delay of 40 seconds. Ideas Adam? I know you better be reading this super vulnerable code....I mean look at me running unvalidated eval !
+

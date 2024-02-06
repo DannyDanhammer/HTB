@@ -35,6 +35,7 @@ function valid_ip()
 
 ######MAIN#######
 ###hardcoded file! set as variable and add to setup/requirments script
+
 newterm 'echo "Logging in with .ovpn file";sudo openvpn lab_Dannyoftheira.ovpn'
 
 

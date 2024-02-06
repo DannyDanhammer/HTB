@@ -1,5 +1,15 @@
 #!/bin/bash
 
+
+#Function to open new terminal - add to requirments doc sudo apt install gnome-terminal
+function newterm() 
+{
+    gnome-terminal -- bash -c "$1; exec bash"
+}
+
+
+newterm 'echo "Logging in with .ovpn file"; openvpn Lab_Dannyoftheira.ovpn'
+
 # Prompt user for input
 read -p "Enter the IP address: " ip_address
 read -p "Enter the hostname: " hostname

@@ -35,18 +35,14 @@ function valid_ip()
 
 # Function to create directories if they do not exist
 create_directory() {
-    if [ ! -d "$1" ]; then
-        mkdir -p "$1"
-        echo "Directory '$1' created."
-    else
-        echo "Directory '$1' already exists."
-    fi
+    mkdir -p "$1"
+    echo "Directory '$1' created."
 }
 
 
 
 ######MAIN#######
-###hardcoded file! set as variable and add to setup/requirments script
+###hardcoded file! set as a variable and add to setup/requirements script
 
 newterm 'echo "Logging in with .ovpn file";sudo openvpn lab_Dannyoftheira.ovpn'
 
@@ -62,7 +58,7 @@ read -p "Enter the hostname: " hostname
 create_directory "$HOME/Desktop/HTB"
 
 # Call the function to create a directory named after the $HOST variable inside the "HTB" directory
-create_directory "$HOME/Desktop/HTB/$HOST"
+create_directory "$HOME/Desktop/HTB/$hostname"
 
 #Sleep to allow connection
 sleep 5

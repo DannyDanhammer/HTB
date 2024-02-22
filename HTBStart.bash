@@ -80,7 +80,7 @@ update_hosts_command="echo \"$ip_address $hostname\" | sudo tee -a /etc/hosts"
 eval "$update_hosts_command"
 
 # Construct the nmap command
-nmap_command="sudo nmap -p\$(nmap -p- --min-rate=1000 -T4 $TARGET -Pn | grep ^[0-9] | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//) -sC -sV -Pn -vvv $TARGET -oN nmap_tcp_all.nmap"
+nmap_command="sudo nmap -p\$(nmap -p- --min-rate=1000 -T4 $TARGET -Pn | grep "open\|filtered" | awk '{print $1}' | sed 's/\/tcp//g' | paste -sd "," -) -sC -sV -Pn -vvv $TARGET -oN nmap_tcp_all.nmap"
 
 # Execute the nmap command
 eval "$nmap_command"

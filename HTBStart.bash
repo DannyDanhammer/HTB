@@ -80,12 +80,11 @@ update_hosts_command="echo \"$ip_address $hostname\" | sudo tee -a /etc/hosts"
 eval "$update_hosts_command"
 
 # Construct the nmap command
-nmap_command="sudo nmap -A -sC -p$(nmap -p- -Pn -T4 --min-rate 1000 $TARGET | grep "open" | awk -F/ '{print $1}' | tr '\n' ',') -sC -sV -Pn -vvv $TARGET -oN nmap_tcp_all.nmap"
+nmap_command="sudo  nmap -A -sC -sV -O -T5 $TARGET -oN $HOME/Desktop/HTB/$hostname/nmap_tcp_all.nmap"
 
 # Execute the nmap command
 eval "$nmap_command"
 
-
+eval "wfuzz -w bitquark-subdomains-top100000.txt  -u http://$hostname/ -H 'Host:FUZZ.$hostname' -t 50 --hc 302"
 ##chmod +x htbstart
 # note: maybe try adding openvpn start to the script as wellbut must include time delay of 40 seconds. Ideas Adam? I know you better be reading this super vulnerable code....I mean look at me running unvalidated eval !
-

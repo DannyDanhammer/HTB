@@ -79,8 +79,12 @@ update_hosts_command="echo \"$ip_address $hostname\" | sudo tee -a /etc/hosts"
 # Execute the command to update /etc/hosts
 eval "$update_hosts_command"
 
+
+port_list=$(nmap -p- -T5 $TARGET | nmapawk '{print $1}' | awk -F'/' '{print $1}' | grep -o '[0-9]*' |  paste -sd "," -)
+
+
 # Construct the nmap command
-nmap_command="sudo  nmap -A -sC -sV -O -T5 $TARGET -oN $HOME/Desktop/HTB/$hostname/nmap_tcp_all.nmap"
+nmap_command="sudo  nmap -A -p $port_list -sC -sV -O -T5 $TARGET -oN $HOME/Desktop/HTB/$hostname/nmap_tcp_all.nmap"
 
 # Execute the nmap command
 eval "$nmap_command"

@@ -88,3 +88,4 @@ eval "$nmap_command"
 eval "wfuzz -w bitquark-subdomains-top100000.txt  -u http://$hostname/ -H 'Host:FUZZ.$hostname' -t 50 --hc 302"
 ##chmod +x htbstart
 # note: maybe try adding openvpn start to the script as wellbut must include time delay of 40 seconds. Ideas Adam? I know you better be reading this super vulnerable code....I mean look at me running unvalidated eval !
+eval "dirb $ip_address"

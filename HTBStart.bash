@@ -85,7 +85,7 @@ nmap_command="sudo  nmap -A -sC -sV -O -T5 $TARGET -oN $HOME/Desktop/HTB/$hostna
 # Execute the nmap command
 eval "$nmap_command"
 
-eval "wfuzz -w bitquark-subdomains-top100000.txt  -u http://$hostname/ -H 'Host:FUZZ.$hostname' -t 50 --hc 302"
+eval "wfuzz -w bitquark-subdomains-top100000.txt  -u http://$hostname/ -H 'Host:FUZZ.$hostname' -t 7 --hc 302"
 ##chmod +x htbstart
 # note: maybe try adding openvpn start to the script as wellbut must include time delay of 40 seconds. Ideas Adam? I know you better be reading this super vulnerable code....I mean look at me running unvalidated eval !
-eval "dirb $ip_address"
+eval "dirb http://$ip_address"
